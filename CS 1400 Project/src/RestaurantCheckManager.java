@@ -58,7 +58,6 @@ public class RestaurantCheckManager {
         numChecks++;
         
         // Print
-        
 
 
         
@@ -70,6 +69,11 @@ public class RestaurantCheckManager {
         // Call Method for Individual Breakdown
     
     
+        // Testing Employee creation
+        Employee person = new Employee();
+        person.printInfo();
+        Employee person2 = new Employee("Anna", 1);
+        person2.printInfo();
     
     }
 }
