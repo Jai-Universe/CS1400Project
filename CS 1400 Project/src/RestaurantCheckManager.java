@@ -4,6 +4,7 @@ public class RestaurantCheckManager {
         double[] tipPercentage = new double[6];
         
         // breakdownStyle 1 represents the split given in document
+        // breakdownStyle 2 represents an even split
         // breakdownStyle 3 represents the split we created
         // anything else will cause breakdownTips to return 0s
         switch (breakdownStyle) {
@@ -14,6 +15,14 @@ public class RestaurantCheckManager {
                 tipPercentage[3] = 0.10;
                 tipPercentage[4] = 0.10;
                 tipPercentage[5] = 0.50;
+                break;
+            case 2:
+                tipPercentage[0] = 1.00/6.00;
+                tipPercentage[1] = 1.00/6.00;
+                tipPercentage[2] = 1.00/6.00;
+                tipPercentage[3] = 1.00/6.00;
+                tipPercentage[4] = 1.00/6.00;
+                tipPercentage[5] = 1.00/6.00;
                 break;
             case 3:
                 tipPercentage[0] = 0.36 * 0.50;
