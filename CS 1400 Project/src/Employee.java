@@ -12,7 +12,7 @@ public class Employee {
 
     public Employee() { //If an Employee is constructed with no identifiers, it is defaulted without a name and set as a server
         name = "No Name";
-        job = 5; 
+        job = -1; 
     }
 
     public Employee(String inputName) { //If an Employee is constructed with only a name, they are set as a server
@@ -45,6 +45,9 @@ public class Employee {
                 break;
             case 5:
                 System.out.println("Server");
+                break;
+            default:
+                System.out.println("N/a");
                 break;
         }
     }
