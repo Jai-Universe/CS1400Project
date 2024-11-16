@@ -48,7 +48,6 @@ public class RestaurantCheckManager {
         return tipDistribution;
     }
 
-
     public static void testCase()
     {
 
@@ -102,8 +101,56 @@ public class RestaurantCheckManager {
             System.out.print("Total Amount: ");
             totalAmount = scnr.nextDouble();
             
-            // Perform Edge Case Checks
+            // ----- Perform Edge Case Checks ----- //
             
+                // Check if Sale and Tip add to Total
+            if ( (saleAmount + tipAmount) != totalAmount )
+            {
+
+                    // Check for "Blank" Values - i.e. values marked 0
+                if ( tipAmount == 0 || totalAmount == 0 )
+                {
+
+                    if ( tipAmount == 0 && totalAmount == 0 )   // Tip and Total are left "Blank"
+                    {
+                        tipAmount = 0.0;
+                        totalAmount = saleAmount;
+                    }
+                    else if ( tipAmount == 0 )  // JUST Tip is left "Blank"
+                    {
+                        
+                        if ( (totalAmount - saleAmount) < 0 )   // Edge Case in the Event that Tip is missing AND Total is marked as less than the Sale value
+                        {
+                            tipAmount = 0;
+                            totalAmount = saleAmount;
+                        }
+                        else                                  
+                        {
+                            tipAmount = totalAmount - saleAmount;
+                        }
+
+                    }
+                    else if ( totalAmount == 0 )    // JUST Total is left "Blank"
+                    {
+                        totalAmount = saleAmount + tipAmount;
+                    }
+                    
+                }
+                else    // All values are filled, but, the sum of the Sale and Tip does not add to the total
+                {
+
+                    if ( (totalAmount - saleAmount) < 0 )
+                    {
+                        tipAmount = 0;
+                        totalAmount = saleAmount;
+                    }
+                    else                                  
+                    {
+                        tipAmount = totalAmount - saleAmount;
+                    }
+
+                }
+            }
 
             // Update Sale and Tip Amounts, and Number of Total Checks
             totalSaleAmount += saleAmount;
@@ -130,6 +177,9 @@ public class RestaurantCheckManager {
 
         }
 
+        // Close Scanner
+        scnr.close();
+
         // Print Final Totals 
         System.out.printf("\nThe Total Sale Amount: %.2f\n", totalSaleAmount);
         System.out.printf("The Total Pooled Tip Amount: %.2f\n", totalTipAmount);
@@ -154,38 +204,52 @@ public class RestaurantCheckManager {
     }
 
     /*
-     *                  Edge Cases for Program
-     * 
-    1. Some customers write the tip amount but not the total amount
-    2. Some customers write the total amount but not the tip amount
-    3. Some customers do not write anything in which case the tip amount is 0
-    4. Some customers write a tip amount and a total amount that does not tally properly
-        ▪ In this case the restaurant accepts the total amount and calculates a tip by
-          subtracting the marked cost from the total amount
-        ▪ If the difference comes to be negative, tip is considered to be 0
-    5. Some customers write a lower total amount than the marked cost
-        ▪ In this case the restaurant assumes the tip amount as 0 and considers the
-          marked cost as total amount
-     * 
-     */
+    *                  Edge Cases for Program
+    * 
+        x1. Some customers write the tip amount but not the total amount
+        x2. Some customers write the total amount but not the tip amount
+        x3. Some customers do not write anything in which case the tip amount is 0
+        x4. Some customers write a tip amount and a total amount that does not tally properly
+            x▪ In this case the restaurant accepts the total amount and calculates a tip by
+            subtracting the marked cost from the total amount
+            x▪ If the difference comes to be negative, tip is considered to be 0
+        x5. Some customers write a lower total amount than the marked cost
+            x▪ In this case the restaurant assumes the tip amount as 0 and considers the
+            marked cost as total amount
+    * 
+    */
 
 
 
-     /*                     Process
-      * 
-x● Start by creating a class called RestaurantCheckManager
-x● Write a loop that keeps running until the manager asks to terminate
-x● Inside the loop, prompt the manager to enter the sale amount
-x● Then prompt the manager to enter the tip amount
-x● Finally, prompt the manager to enter the total amount
-x● Calculate the total sale amount, the total tip amount, and the number of checks
-    o Pay attention to the edge cases listed above
-x● Ask the manager if they want to stop
-    o If they type ‘y’ or ‘Y’, terminate the loop
-    o Else continue
-● After that the program should display the total sale amount and the total tip amount
-      
-      */
+    /*                              Process
+    * 
+        x● Start by creating a class called RestaurantCheckManager
+        x● Write a loop that keeps running until the manager asks to terminate
+        x● Inside the loop, prompt the manager to enter the sale amount
+        x● Then prompt the manager to enter the tip amount
+        x● Finally, prompt the manager to enter the total amount
+        x● Calculate the total sale amount, the total tip amount, and the number of checks
+            xo Pay attention to the edge cases listed above
+        x● Ask the manager if they want to stop
+            xo If they type ‘y’ or ‘Y’, terminate the loop
+            xo Else continue
+        x● After that the program should display the total sale amount and the total tip amount
+    *
+    */
+
+
+
+      /*
+       *                           Abstract (Description of Program)
+       * 
+       * This project involves developing an application to manage restaurant checks, focusing 
+       * on the calculation of total sales and pooled tips. The challenge is to create a fair 
+       * algorithm for distributing tips among workers, reflecting the broader goal of socially 
+       * responsible computing. This project serves as a practical example of how computer 
+       * science students can engage with ethical considerations in algorithm design, emphasizing 
+       * the need for transparency, fairness, and accountability in technology development.
+       * 
+       */
 
 
 
