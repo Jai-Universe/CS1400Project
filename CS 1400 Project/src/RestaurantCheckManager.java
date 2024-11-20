@@ -1,9 +1,43 @@
 // Imports
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 // Start of the Class
 public class RestaurantCheckManager {
     
+    //Method for user input and exception handling
+    public static double getInput(String message, Scanner scnr) {
+        double answer = 0;
+        double testDigits = 0;
+        while (true) {
+            System.out.println(message);
+            try {
+                answer = scnr.nextDouble();
+                
+                //Error if the user enters 3+ decimal places
+                testDigits = Math.round(answer * 100.0) / 100.0;
+                if (Double.compare(answer, testDigits) != 0.0) {
+                    throw new Exception("Please enter a number with two or less decimal places");
+                }
+
+                //Error if the user enters a negative value
+                else if (answer < 0) {
+                    throw new Exception("Please enter a positive number");
+                }
+                break;
+            }
+
+            //Error if the user enters something weird instead of a number
+            catch (InputMismatchException e) {
+                System.out.println("Please enter a number");
+                scnr.nextLine();
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return answer;
+    }
     
     // Method for the Tip Distribution of options 1 and 3
     public static double[] breakdownTips(double tipAmount, int breakdownStyle) {
@@ -88,18 +122,14 @@ public class RestaurantCheckManager {
         // Loop to determine all sales
         while (true)
         {
-
             // Prompt for Sale Amount
-            System.out.print("Total Sale Amount: ");
-            saleAmount = scnr.nextDouble();
+            saleAmount = getInput("Total Sale Amount: ", scnr);
             
             // Prompt for Tip Amount
-            System.out.print("Tip Amount: ");
-            tipAmount = scnr.nextDouble();
+            tipAmount = getInput("Tip Amount: ", scnr);
             
             // Prompt for Total Amount
-            System.out.print("Total Amount: ");
-            totalAmount = scnr.nextDouble();
+            totalAmount = getInput("Total Amount: ", scnr);
             
             // ----- Perform Edge Case Checks ----- //
             
