@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Employee {
     /*
      * 0 = Chef
@@ -9,19 +11,25 @@ public class Employee {
      */
     String name;
     private int job;
+    public static ArrayList<Employee> employeeList = new ArrayList<Employee>(); // ArrayList created to keep track of all Employees
+
 
     public Employee() { //If an Employee is constructed with no identifiers, it is defaulted without a name and set as a server
         name = "No Name";
         job = -1; 
+        employeeList.add(this);
     }
 
     public Employee(String inputName) { //If an Employee is constructed with only a name, they are set as a server
         name = inputName;
+        job = -1;
+        employeeList.add(this);
     }
 
     public Employee(String inputName, int assignedJob) {
         name = inputName;
         job = assignedJob;
+        employeeList.add(this);
     }
 
     public void printInfo() {

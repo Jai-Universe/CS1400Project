@@ -1,4 +1,5 @@
 // Imports
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // Start of the Class
@@ -177,9 +178,6 @@ public class RestaurantCheckManager {
 
         }
 
-        // Close Scanner
-        scnr.close();
-
         // Print Final Totals 
         System.out.printf("\nThe Total Sale Amount: %.2f\n", totalSaleAmount);
         System.out.printf("The Total Pooled Tip Amount: %.2f\n", totalTipAmount);
@@ -193,14 +191,65 @@ public class RestaurantCheckManager {
         // Call Method for Individual Breakdown
     
     
-        // Testing Employee creation
-        System.out.println("\n\nTests for Emplyee Objects");
+        // Entering Employees Into the System
+        System.out.println("\nEntering Employees into the System");
 
-        Employee person = new Employee();
-        person.printInfo();
-        Employee person2 = new Employee("Anna", 1);
-        person2.printInfo();
+        // While loop to create Employee objects as long as the user does not exit the loop
+        boolean employeeCreation = true; 
+        while (employeeCreation) { 
+            System.out.print("Please enter the name of the Employee: "); 
+            String nameInput = scnr.next(); // Read user input
+            // Check if the input is empty or only whitespace
+            if (nameInput.trim().isEmpty()) {
+                Employee person = new Employee();
+            } 
+            else {
+                System.out.println("Please input the number that corresponds to the employee's job: \n" +
+                               "0 = Chef\n" +
+                               "1 = Sous chef\n" +
+                               "2 = Kitchen aid\n" +
+                               "3 = Host / hostess\n" +
+                               "4 = Busser\n" +
+                               "5 = Server");
+                
+                try { // Tries to construct an Employee with a job, catches an exception if input is not an int
+                    int jobInput = scnr.nextInt(); // Read user input
+                    if (jobInput >= 0 && jobInput <= 5) {
+                        Employee person = new Employee(nameInput.trim(), jobInput);
+                    } 
+                    else {
+                        Employee person = new Employee(nameInput.trim());
+                        System.out.println("Invalid input, employee entered with no assigned job.");
+                    }
+                    scnr.nextLine(); // Consume the leftover newline character
+                }               
+                
+                catch (InputMismatchException e) {
+                    Employee person = new Employee(nameInput.trim());
+                    System.out.println("Invalid input, employee entered with no assigned job.");
+                    scnr.nextLine(); // Consume the leftover newline character
+                }
+            }
+
+            System.out.print("Do you want to enter in another employee? (y/n): ");
+            loopContinuation = scnr.next().charAt(0);
+            if (loopContinuation == 'n' || loopContinuation == 'N')
+            {
+                employeeCreation = false;
+                break;
+            }
+        }
+
+        // Loop to print the information for all employees created
+        for (int i = 0; i < Employee.employeeList.size(); i++) {
+            System.out.println("Employee #" + (i+1));
+            Employee employee = Employee.employeeList.get(i);
+            employee.printInfo();
+            System.out.println("------------------");
+        }
     
+        // Close Scanner
+        scnr.close();
     }
 
     /*
