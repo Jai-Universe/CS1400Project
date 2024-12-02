@@ -32,6 +32,10 @@ public class Employee {
         employeeList.add(this);
     }
 
+    public int getJob() {
+        return job;
+    }
+
     //method to get the count of employees for each job
     public static int getEmployeeCount(int job) {
         int count = 0;

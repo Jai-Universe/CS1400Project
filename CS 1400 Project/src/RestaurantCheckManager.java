@@ -276,7 +276,7 @@ public class RestaurantCheckManager {
             System.out.println("Employee #" + (i+1));
             Employee employee = Employee.employeeList.get(i);
             employee.printInfo();
-            System.out.println("Tip Distribution: $" + (tipDistribution[i])/(employee.getEmployeeCount(employee.job)));
+            System.out.println("Tip Distribution: $" + (tipDistribution[i]) / Employee.getEmployeeCount(employee.getJob()));
             System.out.println("------------------");
 
         }
