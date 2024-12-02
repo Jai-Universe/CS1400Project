@@ -32,6 +32,18 @@ public class Employee {
         employeeList.add(this);
     }
 
+    //method to get the count of employees for each job
+    public static int getEmployeeCount(int job) {
+        int count = 0;
+        for (int i = 0; i < employeeList.size(); i++) { // Use a regular for loop with an index
+            Employee employee = employeeList.get(i); // Access employee by index
+            if (employee.job == job) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public void printInfo() {
         System.out.println("Name: " + name);
         System.out.print("Job: ");

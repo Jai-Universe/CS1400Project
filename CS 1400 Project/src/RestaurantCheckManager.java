@@ -5,7 +5,6 @@ import java.util.Scanner;
 // Start of the Class
 public class RestaurantCheckManager {
     
-    
     // Method for the Tip Distribution of options 1 and 3
     public static double[] breakdownTips(double tipAmount, int breakdownStyle) {
         double[] tipDistribution = new double[6];
@@ -22,6 +21,14 @@ public class RestaurantCheckManager {
                 tipPercentage[3] = 0.10;
                 tipPercentage[4] = 0.10;
                 tipPercentage[5] = 0.50;
+                break;
+            case 2:
+                tipPercentage[0] = 1.00/6.00;
+                tipPercentage[1] = 1.00/6.00;
+                tipPercentage[2] = 1.00/6.00;
+                tipPercentage[3] = 1.00/6.00;
+                tipPercentage[4] = 1.00/6.00;
+                tipPercentage[5] = 1.00/6.00;
                 break;
             case 3:
                 tipPercentage[0] = 0.36 * 0.50;
@@ -183,16 +190,40 @@ public class RestaurantCheckManager {
         System.out.printf("The Total Pooled Tip Amount: %.2f\n", totalTipAmount);
 
         
-        // Call Method for Breakdowns of Tips
-
+        // Get input for which breakdown method and call Method for Breakdowns of Tips
+        int breakdownInput = 0;
+        System.out.printf("Please input the number that corresponds to the desired tip breakdown: \n " +
+            "1 = Breakdown according to document\n" +
+            "2 = Equal split among jobs\n" +
+            "3 = Our method\n");
+        
+        while (true){ 
+            try { /// reads user input for breakdown 1, 2 or 3 and catches exception if input is not an integer
+                breakdownInput = scnr.nextInt(); // Read user input
+                
+                if (breakdownInput == 1 || breakdownInput == 2 || breakdownInput == 3) {
+                    break; // If valid input, exit the loop
+                } else {
+                    System.out.println("Invalid input, please input 1, 2, or 3.");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Invalid input, please input an integer: 1, 2, or 3.");
+                scnr.nextLine(); // Consume the leftover newline character
+            }
+        }
+        double[] tipDistribution = breakdownTips(totalTipAmount, breakdownInput);
+        System.out.println("\nTip Distribution Breakdown:");
+        System.out.println("Chefs: $" + tipDistribution[0]);
+        System.out.println("Sous Chefs: $" + tipDistribution[1]);
+        System.out.println("Kitchen Aids: $" + tipDistribution[2]);
+        System.out.println("Hosts/Hostesses: $" + tipDistribution[3]);
+        System.out.println("Bussers: $" + tipDistribution[4]);
+        System.out.println("Servers: $" + tipDistribution[5]);
         
 
-
-        // Call Method for Individual Breakdown
-    
-    
         // Entering Employees Into the System
         System.out.println("\nEntering Employees into the System");
+
 
         // While loop to create Employee objects as long as the user does not exit the loop
         boolean employeeCreation = true; 
@@ -240,12 +271,14 @@ public class RestaurantCheckManager {
             }
         }
 
-        // Loop to print the information for all employees created
+        // Loop to print the information and individual tip amount for all employees created
         for (int i = 0; i < Employee.employeeList.size(); i++) {
             System.out.println("Employee #" + (i+1));
             Employee employee = Employee.employeeList.get(i);
             employee.printInfo();
+            System.out.println("Tip Distribution: $" + (tipDistribution[i])/(employee.getEmployeeCount(employee.job)));
             System.out.println("------------------");
+
         }
     
         // Close Scanner
