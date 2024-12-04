@@ -12,7 +12,7 @@ public class RestaurantCheckManager {
         double answer = 0;
         double testDigits = 0;
         while (true) {
-            System.out.println(message);
+            System.out.print(message);
             try {
                 answer = scnr.nextDouble();
                 
@@ -207,28 +207,26 @@ public class RestaurantCheckManager {
             System.out.print("Do you want to stop (y/n): ");
             loopContinuation = scnr.next().charAt(0);
 
+            System.out.println("------------------------------");
             if (loopContinuation == 'y' || loopContinuation == 'Y')
             {
                 break;
-            }
-            else
-            {
-                System.out.println("------------------------------");
             }
 
         }
 
         // Print Final Totals 
-        System.out.printf("\nThe Total Sale Amount: %.2f\n", totalSaleAmount);
+        System.out.printf("The Total Sale Amount: %.2f\n", totalSaleAmount);
         System.out.printf("The Total Pooled Tip Amount: %.2f\n", totalTipAmount);
+        System.out.println("------------------------------\n");
 
         
         // Get input for which breakdown method and call Method for Breakdowns of Tips
         int breakdownInput = 0;
-        System.out.printf("Please input the number that corresponds to the desired tip breakdown: \n " +
-            "1 = Breakdown according to document\n" +
-            "2 = Equal split among jobs\n" +
-            "3 = Our method\n");
+        System.out.printf("Please input the number that corresponds to the desired tip breakdown: \n" +
+            "1 - Document Breakdown\n" +
+            "2 - Equal Split to Everyone\n" +
+            "3 - Our Method\n");
         
         while (true){ 
             try { /// reads user input for breakdown 1, 2 or 3 and catches exception if input is not an integer
@@ -297,12 +295,17 @@ public class RestaurantCheckManager {
 
             System.out.print("Do you want to enter in another employee? (y/n): ");
             loopContinuation = scnr.next().charAt(0);
+            System.out.println("------------------------------");
             if (loopContinuation == 'n' || loopContinuation == 'N')
             {
                 employeeCreation = false;
+                System.out.println("\n------------------------------");
                 break;
             }
         }
+
+        // Close Scanner
+        scnr.close();
 
         // Loop to print the information and individual tip amount for all employees created
         for (int i = 0; i < Employee.employeeList.size(); i++) {
@@ -312,12 +315,11 @@ public class RestaurantCheckManager {
             
             double individualTip = (tipDistribution[employee.getJob()]) / Employee.getEmployeeCount(employee.getJob());
             System.out.printf("Tip Distribution: $%.2f%n", individualTip);
-            System.out.println("------------------");
+            System.out.println("------------------------------");
 
         }
     
-        // Close Scanner
-        scnr.close();
+        
     }
 
     /*
