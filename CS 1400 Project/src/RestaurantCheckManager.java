@@ -1,4 +1,6 @@
+
 // Imports
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -216,30 +218,106 @@ public class RestaurantCheckManager {
 
         }
 
-        // Close Scanner
-        scnr.close();
-
         // Print Final Totals 
         System.out.printf("\nThe Total Sale Amount: %.2f\n", totalSaleAmount);
         System.out.printf("The Total Pooled Tip Amount: %.2f\n", totalTipAmount);
 
         
-        // Call Method for Breakdowns of Tips
-
+        // Get input for which breakdown method and call Method for Breakdowns of Tips
+        int breakdownInput = 0;
+        System.out.printf("Please input the number that corresponds to the desired tip breakdown: \n " +
+            "1 = Breakdown according to document\n" +
+            "2 = Equal split among jobs\n" +
+            "3 = Our method\n");
+        
+        while (true){ 
+            try { /// reads user input for breakdown 1, 2 or 3 and catches exception if input is not an integer
+                breakdownInput = scnr.nextInt(); // Read user input
+                
+                if (breakdownInput == 1 || breakdownInput == 2 || breakdownInput == 3) {
+                    break; // If valid input, exit the loop
+                } else {
+                    System.out.println("Invalid input, please input 1, 2, or 3.");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Invalid input, please input an integer: 1, 2, or 3.");
+                scnr.nextLine(); // Consume the leftover newline character
+            }
+        }
+        double[] tipDistribution = breakdownTips(totalTipAmount, breakdownInput);
+        System.out.println("\nTip Distribution Breakdown:");
+        System.out.println("Chefs: $" + tipDistribution[0]);
+        System.out.println("Sous Chefs: $" + tipDistribution[1]);
+        System.out.println("Kitchen Aids: $" + tipDistribution[2]);
+        System.out.println("Hosts/Hostesses: $" + tipDistribution[3]);
+        System.out.println("Bussers: $" + tipDistribution[4]);
+        System.out.println("Servers: $" + tipDistribution[5]);
         
 
+        // Entering Employees Into the System
+        System.out.println("\nEntering Employees into the System");
 
-        // Call Method for Individual Breakdown
-    
-    
-        // Testing Employee creation
-        System.out.println("\n\nTests for Emplyee Objects");
 
-        Employee person = new Employee();
-        person.printInfo();
-        Employee person2 = new Employee("Anna", 1);
-        person2.printInfo();
+        // While loop to create Employee objects as long as the user does not exit the loop
+        boolean employeeCreation = true; 
+        while (employeeCreation) { 
+            System.out.print("Please enter the name of the Employee: "); 
+            String nameInput = scnr.next(); // Read user input
+            // Check if the input is empty or only whitespace
+            if (nameInput.trim().isEmpty()) {
+                Employee person = new Employee();
+            } 
+            else {
+                System.out.println("Please input the number that corresponds to the employee's job: \n" +
+                               "0 = Chef\n" +
+                               "1 = Sous chef\n" +
+                               "2 = Kitchen aid\n" +
+                               "3 = Host / hostess\n" +
+                               "4 = Busser\n" +
+                               "5 = Server");
+                
+                try { // Tries to construct an Employee with a job, catches an exception if input is not an int
+                    int jobInput = scnr.nextInt(); // Read user input
+                    if (jobInput >= 0 && jobInput <= 5) {
+                        Employee person = new Employee(nameInput.trim(), jobInput);
+                    } 
+                    else {
+                        Employee person = new Employee(nameInput.trim());
+                        System.out.println("Invalid input, employee entered with no assigned job.");
+                    }
+                    scnr.nextLine(); // Consume the leftover newline character
+                }               
+                
+                catch (InputMismatchException e) {
+                    Employee person = new Employee(nameInput.trim());
+                    System.out.println("Invalid input, employee entered with no assigned job.");
+                    scnr.nextLine(); // Consume the leftover newline character
+                }
+            }
+
+            System.out.print("Do you want to enter in another employee? (y/n): ");
+            loopContinuation = scnr.next().charAt(0);
+            if (loopContinuation == 'n' || loopContinuation == 'N')
+            {
+                employeeCreation = false;
+                break;
+            }
+        }
+
+        // Loop to print the information and individual tip amount for all employees created
+        for (int i = 0; i < Employee.employeeList.size(); i++) {
+            System.out.println("Employee #" + (i+1));
+            Employee employee = Employee.employeeList.get(i);
+            employee.printInfo();
+            
+            double individualTip = (tipDistribution[employee.getJob()]) / Employee.getEmployeeCount(employee.getJob());
+            System.out.printf("Tip Distribution: $%.2f%n", individualTip);
+            System.out.println("------------------");
+
+        }
     
+        // Close Scanner
+        scnr.close();
     }
 
     /*
