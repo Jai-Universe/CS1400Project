@@ -14,13 +14,13 @@ public class Employee {
     public static ArrayList<Employee> employeeList = new ArrayList<Employee>(); // ArrayList created to keep track of all Employees
 
 
-    public Employee() { //If an Employee is constructed with no identifiers, it is defaulted without a name and set as a server
+    public Employee() { //If an Employee is constructed with no identifiers, it is defaulted without a name and set as a N/a
         name = "No Name";
         job = -1; 
         employeeList.add(this);
     }
 
-    public Employee(String inputName) { //If an Employee is constructed with only a name, they are set as a server
+    public Employee(String inputName) { //If an Employee is constructed with only a name, they are set as a N/a
         name = inputName;
         job = -1;
         employeeList.add(this);
