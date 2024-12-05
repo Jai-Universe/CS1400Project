@@ -6,7 +6,7 @@ Option Two: Tips Distributer
 Takes restaurant revenue and calculates how much tip money each employee should receive
 
 # How to run
-Open the program by running RestaurantCheckManager.java in your terminal
+Open the program by running RestaurantCheckManager.java
 
 # How to use
 1. Enter the amount paid by customers  
